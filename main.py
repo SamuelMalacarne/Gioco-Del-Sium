@@ -117,6 +117,10 @@ player = Player()
 
 loosing_img = pygame.image.load('.\data\sprites\sad_piazz.png').convert_alpha()
 start_img = pygame.image.load('.\data\sprites\start_piazz.png').convert_alpha()
+# sound_on_img = pygame.image.load('.\data\sprites\sound_on.png').convert_alpha()
+# sound_on_rect = sound_on_img.get_rect(bottomright = (WIDTH, HEIGHT))
+# sound_off_img = pygame.image.load('.\data\sprites\sound_off.png').convert_alpha()
+# sound_off_rect = sound_off_img.get_rect(bottomright = (WIDTH, HEIGHT))
 
 start_img_rect = start_img.get_rect(center = ((WIDTH/2)-150, (HEIGHT/2)+15))
 
@@ -199,6 +203,7 @@ while True:
         if start:
             screen.blit(start_img, start_img_rect)
             screen.blit(starting_text, s_t_rect)
+            # screen.blit(sound_on_img, sound_on_rect)
         else:
             final_score_text_surface = font.render(f'Hai siummato {score} volt' + ('a' if score == 1 else 'e'), True, 'blue4')
             f_s_t_rect = final_score_text_surface.get_rect(center = ((WIDTH/4)*3, (HEIGHT/2)-20))
