@@ -115,20 +115,15 @@ def prepare_after_dead():
 
 player = Player()
 
-score_text_surface = font.render(f'sium: {score}', True, 'blue')
-
 loosing_img = pygame.image.load('.\data\sprites\sad_piazz.png').convert_alpha()
 start_img = pygame.image.load('.\data\sprites\start_piazz.png').convert_alpha()
 
-loosing_text_l1 = font.render('Hai perso :(', True, 'blue')
-l_t_l1_rect = loosing_text_l1.get_rect(center = ((WIDTH/4)*3, (HEIGHT/2)-20))
-loosing_text_l2 = small_font.render('Premi spazio per ricominciare', True, 'blue')
-l_t_l2_rect = loosing_text_l2.get_rect(center = ((WIDTH/4)*3, (HEIGHT/2)+20))
+start_img_rect = start_img.get_rect(center = ((WIDTH/2)-150, (HEIGHT/2)+15))
+
+loosing_text = small_font.render('Premi invio per ricominciare', False, 'blue')
+l_t_rect = loosing_text.get_rect(center = ((WIDTH/4)*3, (HEIGHT/2)+10))
 starting_text = font.render('Premi spazio per iniziare', True, 'blue')
-s_t_rect = starting_text.get_rect(center = ((WIDTH/4)*3, HEIGHT/2))
-
-
-# player_for_collision = pygame.sprite.GroupSingle(player)
+s_t_rect = starting_text.get_rect(center = ((WIDTH/2)+65, (HEIGHT/2)-40))
 
 sprites = pygame.sprite.Group()
 obstacles_sprite = pygame.sprite.Group()
@@ -188,7 +183,7 @@ while True:
                 sys.exit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == (pygame.K_SPACE if start else pygame.K_RETURN):
                     player.reset()
                     score = 0
                     initialize_obstacles()
@@ -196,13 +191,20 @@ while True:
 
                     playing = True
 
+                if event.key == pygame.K_ESCAPE:
+                    player.reset()
+                    screen.fill('light blue')
+                    start = True
+
         if start:
-            screen.blit(start_img, (0, 0))
+            screen.blit(start_img, start_img_rect)
             screen.blit(starting_text, s_t_rect)
         else:
+            final_score_text_surface = font.render(f'Hai siummato {score} volt' + ('a' if score == 1 else 'e'), True, 'blue4')
+            f_s_t_rect = final_score_text_surface.get_rect(center = ((WIDTH/4)*3, (HEIGHT/2)-20))
             screen.blit(loosing_img, (0, 0))
-            screen.blit(loosing_text_l1, l_t_l1_rect)
-            screen.blit(loosing_text_l2, l_t_l2_rect)
+            screen.blit(loosing_text, l_t_rect)
+            screen.blit(final_score_text_surface, f_s_t_rect)
 
         pygame.display.update()
         clock.tick(60)
